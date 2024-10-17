@@ -1,0 +1,65 @@
+#include <iostream>
+using namespace std;
+struct node {
+	int info;
+	node* next;
+};
+node* CreateNode(int data) {
+	node* tmp = new node;
+	tmp->info = data;
+	tmp->next = nullptr;
+	return tmp;
+}
+struct stack {
+	node* top;
+};
+void CreateStack(stack &a) {
+	a.top = nullptr;
+}
+void InsertHead(stack& st, node* p) {
+	p->next = st.top;
+	st.top = p;
+}
+void Pop(stack& st, node* p) {
+	node* tmp = st.top;
+	while (tmp->next->next != nullptr) {
+		tmp = tmp->next;
+	}
+	tmp->next = nullptr;
+}
+void ExportStack(stack a) {
+	node* p = a.top;
+	while (p != nullptr) {
+		cout << p->info << " ";
+		p = p->next;
+	}
+}
+int main() {
+	stack head;
+	CreateStack(head);
+	stack chan, le;
+	CreateStack(chan);
+	CreateStack(le);
+	int data;
+	cin >> data;
+	while (data != 0) {
+		InsertHead(head, CreateNode(data));
+		if (data % 2 == 1) {
+			InsertHead(le, CreateNode(data));
+		}
+		else {
+			InsertHead(chan, CreateNode(data));
+		}
+		cin >> data;
+	}
+	ExportStack(head);
+	node* tmp = le.top;
+	while (tmp->next != nullptr) {
+		tmp = tmp->next;
+	}
+	tmp->next = chan.top;
+	head.top = le.top; 
+	cout << endl; 
+	ExportStack(head);  
+	return 0;
+}
